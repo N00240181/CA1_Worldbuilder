@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 424.8, y: 1.3, z: 288.1}
-  m_LocalScale: {x: 1, y: 0.05, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.05, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4609080654052352338}
@@ -129,7 +129,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72fb8f12e22016d4498f0c853e0ec9f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoinRotator
+  rotate: 1
   degreesPerSecond: 90
+  bob: 1
+  bobHeight: 0.25
+  bobSpeed: 1
+  randomiseStart: 1
 --- !u!114 &5740189387950511869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,7 +149,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Collectible
   collectSound: {fileID: 8300000, guid: 4a43edb6526bd476eb7d64e97bb96f1b, type: 3}
   volume: 1
-  collectEffect: {fileID: 6545302236792476409, guid: 30ee76fb986df4340a1310e3afb4b9b9, type: 3}
 --- !u!1 &5083846284790950169
 GameObject:
   m_ObjectHideFlags: 0
