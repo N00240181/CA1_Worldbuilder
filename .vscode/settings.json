@@ -67,6 +67,6 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "UnityProject.slnx",
+    "dotnet.defaultSolution": "CA1_WorldBuilderFixed.slnx",
     "dotnet.enableWorkspaceBasedDevelopment": false
 }
