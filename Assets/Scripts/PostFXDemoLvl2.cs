@@ -6,20 +6,16 @@ using UnityEngine.Rendering.Universal;
 // Post-processing demo: press 1 to 8 to switch individual effects on and off, 
 // 9 for grayscale, and 0 to switch all post-processing on and off for a before/after comparison. 
 // Put this on the same GameObject as a Global Volume. 
-public class PostFXDemo : MonoBehaviour 
+public class PostFXDemoLv2 : MonoBehaviour 
 { 
     [Tooltip("The Volume whose effects are toggled. Left empty, it uses the Volume on this GameObject.")] 
     [SerializeField] Volume volume; 
- 
-    [Tooltip("A second Global Volume with a higher Priority, holding only Color Adjustments with Saturation at -100.")] 
-    [SerializeField] Volume grayscaleVolume; 
- 
+
     [Tooltip("Show the on-screen list of effects and keys.")] 
-    [SerializeField] bool showHelp = true; 
+    [SerializeField] bool showHelp = false; 
  
     VolumeComponent[] effects; 
-    string[] effectNames; 
-    bool grayscale; 
+    string[] effectNames;  
  
     readonly Key[] keys = 
     { 
@@ -41,29 +37,19 @@ public class PostFXDemo : MonoBehaviour
         // so toggling effects in Play mode does not change the profile asset 
         VolumeProfile profile = volume.profile; 
  
-        profile.TryGet(out Bloom bloom); 
-        profile.TryGet(out Tonemapping tonemapping); 
         profile.TryGet(out ColorAdjustments colorAdjustments); 
-        profile.TryGet(out Vignette vignette); 
         profile.TryGet(out ChromaticAberration chromaticAberration); 
-        profile.TryGet(out FilmGrain filmGrain); 
-        profile.TryGet(out LensDistortion lensDistortion); 
         profile.TryGet(out DepthOfField depthOfField); 
  
         effects = new VolumeComponent[] 
         { 
-            bloom, tonemapping, colorAdjustments, vignette, 
-            chromaticAberration, filmGrain, lensDistortion, depthOfField 
+            colorAdjustments, chromaticAberration, depthOfField 
         }; 
  
         effectNames = new string[] 
         { 
-            "Bloom", "Tonemapping", "Color Adjustments", "Vignette", 
-            "Chromatic Aberration", "Film Grain", "Lens Distortion", "Depth of Field" 
+            "Color Adjustments", "Chromatic Aberration", "Depth of Field" 
         }; 
- 
-        // grayscale starts off 
-        if (grayscaleVolume != null) grayscaleVolume.enabled = false; 
     } 
  
     void Update() 
@@ -80,21 +66,10 @@ public class PostFXDemo : MonoBehaviour
             } 
         } 
  
-        if (keyboard.digit9Key.wasPressedThisFrame) 
-        { 
-            grayscale = !grayscale; 
-        } 
- 
         if (keyboard.digit0Key.wasPressedThisFrame) 
         { 
             // switching the whole Volume off shows the scene with no post-processing 
             volume.enabled = !volume.enabled; 
-        } 
- 
-        // the grayscale Volume only shows while post-processing as a whole is on 
-        if (grayscaleVolume != null) 
-        { 
-            grayscaleVolume.enabled = grayscale && volume.enabled; 
         } 
  
         if (keyboard.hKey.wasPressedThisFrame) 
@@ -103,8 +78,6 @@ public class PostFXDemo : MonoBehaviour
         } 
     } 
  
-    // OnGUI draws a quick debug panel without needing a Canvas. 
-    // It is drawn after post-processing, so the text itself is not affected by the effects. 
     void OnGUI() 
     { 
         if (!showHelp || effects == null) return; 
@@ -125,10 +98,6 @@ public class PostFXDemo : MonoBehaviour
         { 
             bool on = effects[i] != null && effects[i].active; 
             GUILayout.Label((i + 1) + "  " + effectNames[i] + ":  " + OnOff(on), style); 
-        } 
-        if (grayscaleVolume != null) 
-        { 
-            GUILayout.Label("9  Grayscale:  " + OnOff(grayscale), style); 
         } 
         GUILayout.Label("0  All post-processing:  " + OnOff(volume.enabled), style); 
         GUILayout.Label("H  hide this panel", style); 
